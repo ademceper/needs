@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "radix-nova",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/styles/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "iconLibrary": "phosphor",
+  "aliases": {
+    "components": "@pangea/ui/components",
+    "utils": "@pangea/ui/lib/utils",
+    "hooks": "@pangea/ui/hooks",
+    "lib": "@pangea/ui/lib",
+    "ui": "@pangea/ui/components"
+  },
+  "rtl": true,
+  "menuColor": "default",
+  "menuAccent": "subtle"
+}

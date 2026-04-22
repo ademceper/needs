@@ -1,0 +1,4 @@
+{
+  "extends": "@pangea/ts-cfg/base.json"
+}
+

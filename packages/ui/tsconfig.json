@@ -1,0 +1,10 @@
+{
+  "extends": "@pangea/ts-cfg/react-library.json",
+  "compilerOptions": {
+    "paths": {
+      "@pangea/ui/*": ["./src/*"]
+    }
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}
