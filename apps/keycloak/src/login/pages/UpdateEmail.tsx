@@ -49,7 +49,6 @@ export default function UpdateEmail(props: UpdateEmailProps) {
       doUseDefaultCss={doUseDefaultCss}
       classes={classes}
       displayMessage={messagesPerField.exists("global")}
-      displayRequiredFields
       headerNode={msg("updateEmailTitle")}
     >
       <form

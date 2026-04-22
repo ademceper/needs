@@ -63,6 +63,11 @@ export default function UserProfileFormFields(
     onIsFormSubmittableValueChange(isFormSubmittable)
   }, [isFormSubmittable])
 
+  const hideRequiredMark =
+    kcContext.pageId === "update-email.ftl" ||
+    kcContext.pageId === "register.ftl" ||
+    kcContext.pageId === "login-update-profile.ftl"
+
   const groupNameRef = { current: "" }
 
   return (
@@ -118,7 +123,7 @@ export default function UserProfileFormFields(
                       className="pointer-events-none absolute top-1 left-4 z-10 text-xs text-muted-foreground transition-[top,font-size,color] duration-150 ease-out peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-foreground"
                     >
                       {advancedMsg(attribute.displayName ?? "")}
-                      {attribute.required && (
+                      {attribute.required && !hideRequiredMark && (
                         <span className="ml-0.5 text-destructive">*</span>
                       )}
                     </Label>
@@ -127,7 +132,7 @@ export default function UserProfileFormFields(
                   <>
                     <Label htmlFor={attribute.name}>
                       {advancedMsg(attribute.displayName ?? "")}
-                      {attribute.required && (
+                      {attribute.required && !hideRequiredMark && (
                         <span className="ml-0.5 text-destructive">*</span>
                       )}
                     </Label>
