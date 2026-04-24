@@ -58,9 +58,9 @@ export const PageNav = () => {
   return (
     <aside
       aria-label="Main navigation"
-      className="hidden w-64 shrink-0 border-r md:block"
+      className="hidden w-64 shrink-0 md:block"
     >
-      <div className="p-3">
+      <div className="py-5">
         <nav>
           <ul className="flex flex-col gap-1">
             <Suspense fallback={<Spinner className="size-5" />}>
