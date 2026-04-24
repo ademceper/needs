@@ -95,7 +95,7 @@ export const SelectComponent = (props: UserProfileFieldProps) => {
               <SelectTrigger
                 id={attribute.name}
                 aria-label={t("selectOne")}
-                className="h-12 w-full rounded-2xl border-transparent bg-muted px-4 hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 dark:bg-muted/60 dark:hover:bg-muted/70"
+                className="h-12! w-full rounded-2xl! border-transparent bg-muted px-4 py-2 text-base hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 dark:bg-muted/60 dark:hover:bg-muted/70"
               >
                 <SelectValue placeholder={t("selectOne")} />
               </SelectTrigger>
