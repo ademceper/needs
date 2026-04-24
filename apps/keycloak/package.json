@@ -5,8 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "dev:keycloak": "keycloakify start-keycloak --keycloak-version 26",
+    "dev": "keycloakify start-keycloak --keycloak-version 26",
     "build": "tsc && vite build",
     "build-keycloak-theme": "pnpm build && keycloakify build",
     "storybook": "storybook dev -p 6006",
