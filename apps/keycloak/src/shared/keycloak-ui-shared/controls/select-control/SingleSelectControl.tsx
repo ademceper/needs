@@ -55,6 +55,11 @@ export const SingleSelectControl = <
   } = useFormContext()
   const required = getRuleValue(controller.rules?.required) === true
   const combined = [...options, ...selectedOptions]
+  // Radix Select forbids SelectItem value="". Map empty keys to a sentinel
+  // so the "default / no selection" option still renders.
+  const EMPTY_SENTINEL = "__kc_empty__"
+  const toSentinel = (v: string) => (v === "" ? EMPTY_SENTINEL : v)
+  const fromSentinel = (v: string) => (v === EMPTY_SENTINEL ? "" : v)
 
   return (
     <FormLabel
@@ -73,10 +78,11 @@ export const SingleSelectControl = <
           const currentKey = Array.isArray(value) ? value[0] ?? "" : value ?? ""
           return (
             <Select
-              value={String(currentKey ?? "")}
+              value={toSentinel(String(currentKey ?? ""))}
               disabled={isDisabled}
               onValueChange={(next) => {
-                const converted = Array.isArray(value) ? [next] : next
+                const normalized = fromSentinel(next)
+                const converted = Array.isArray(value) ? [normalized] : normalized
                 if (onSelect) {
                   onSelect(converted, onChange)
                 } else {
@@ -94,7 +100,10 @@ export const SingleSelectControl = <
               </SelectTrigger>
               <SelectContent>
                 {combined.map((option) => (
-                  <SelectItem key={key(option)} value={String(key(option))}>
+                  <SelectItem
+                    key={key(option)}
+                    value={toSentinel(String(key(option)))}
+                  >
                     {isString(option) ? option : option.value}
                   </SelectItem>
                 ))}
