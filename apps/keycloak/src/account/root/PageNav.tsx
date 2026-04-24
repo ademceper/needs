@@ -58,7 +58,7 @@ export const PageNav = () => {
   return (
     <aside
       aria-label="Main navigation"
-      className="hidden w-64 shrink-0 border-r bg-muted/20 md:block"
+      className="hidden w-64 shrink-0 border-r md:block"
     >
       <div className="p-3">
         <nav>
