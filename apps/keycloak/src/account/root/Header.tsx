@@ -60,7 +60,7 @@ export const Header = () => {
 
   return (
     <header data-testid="page-header" className="bg-background">
-      <div className="mx-auto flex w-full max-w-5xl items-center gap-4 border-b px-4 py-2 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-5xl items-center gap-4 border-b px-4 py-5 sm:px-6 lg:px-8">
         <a
           href={indexHref}
           className="inline-flex items-center text-2xl tracking-tight md:text-3xl"
