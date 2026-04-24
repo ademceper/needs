@@ -1,74 +1,71 @@
 /**
- * WARNING: Before modifying this file, run the following command:
- * 
- * $ npx keycloakify own --path "account/account-security/LinkedAccounts.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * This file has been claimed for ownership from @keycloakify/keycloak-account-ui version 260502.0.2.
+ * To relinquish ownership and restore this file to its original content, run the following command:
+ *
+ * $ npx keycloakify own --path "account/account-security/LinkedAccounts.tsx" --revert
  */
 
 /* eslint-disable */
 
 // @ts-nocheck
 
-import { useEnvironment } from "../../shared/keycloak-ui-shared";
-import { DataList, Stack, StackItem, Title } from "../../shared/@patternfly/react-core";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { getLinkedAccounts, LinkedAccountQueryParams } from "../api/methods";
-import { LinkedAccountRepresentation } from "../api/representations";
-import { EmptyRow } from "../components/datalist/EmptyRow";
-import { Page } from "../components/page/Page";
-import { usePromise } from "../utils/usePromise";
-import { AccountRow } from "./AccountRow";
-import { LinkedAccountsToolbar } from "./LinkedAccountsToolbar";
+import { useEnvironment } from "../../shared/keycloak-ui-shared"
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import { getLinkedAccounts, LinkedAccountQueryParams } from "../api/methods"
+import { LinkedAccountRepresentation } from "../api/representations"
+import { EmptyRow } from "../components/datalist/EmptyRow"
+import { Page } from "../components/page/Page"
+import { usePromise } from "../utils/usePromise"
+import { AccountRow } from "./AccountRow"
+import { LinkedAccountsToolbar } from "./LinkedAccountsToolbar"
 
 export const LinkedAccounts = () => {
-  const { t } = useTranslation();
-  const context = useEnvironment();
+  const { t } = useTranslation()
+  const context = useEnvironment()
   const [linkedAccounts, setLinkedAccounts] = useState<
     LinkedAccountRepresentation[]
-  >([]);
+  >([])
   const [unlinkedAccounts, setUninkedAccounts] = useState<
     LinkedAccountRepresentation[]
-  >([]);
+  >([])
 
   const [paramsUnlinked, setParamsUnlinked] =
     useState<LinkedAccountQueryParams>({
       first: 0,
       max: 6,
       linked: false,
-    });
+    })
   const [paramsLinked, setParamsLinked] = useState<LinkedAccountQueryParams>({
     first: 0,
     max: 6,
     linked: true,
-  });
-  const [key, setKey] = useState(1);
-  const refresh = () => setKey(key + 1);
+  })
+  const [key, setKey] = useState(1)
+  const refresh = () => setKey(key + 1)
 
   usePromise(
     (signal) => getLinkedAccounts({ signal, context }, paramsUnlinked),
     setUninkedAccounts,
-    [paramsUnlinked, key],
-  );
+    [paramsUnlinked, key]
+  )
 
   usePromise(
     (signal) => getLinkedAccounts({ signal, context }, paramsLinked),
     setLinkedAccounts,
-    [paramsLinked, key],
-  );
+    [paramsLinked, key]
+  )
 
   return (
     <Page
       title={t("linkedAccounts")}
       description={t("linkedAccountsIntroMessage")}
     >
-      <Stack hasGutter>
-        <StackItem>
-          <Title headingLevel="h2" className="pf-v5-u-mb-lg" size="xl">
+      <div className="flex flex-col gap-8">
+        <div>
+          <h2 className="mb-4 text-xl font-semibold">
             {t("linkedLoginProviders")}
-          </Title>
+          </h2>
           <LinkedAccountsToolbar
             onFilter={(search) =>
               setParamsLinked({ ...paramsLinked, first: 0, search })
@@ -80,7 +77,7 @@ export const LinkedAccounts = () => {
               setParamsLinked({
                 ...paramsLinked,
                 first: paramsLinked.first + paramsLinked.max - 1,
-              });
+              })
             }}
             onPreviousClick={() =>
               setParamsLinked({
@@ -97,7 +94,11 @@ export const LinkedAccounts = () => {
             }
             hasNext={linkedAccounts.length > paramsLinked.max - 1}
           />
-          <DataList id="linked-idps" aria-label={t("linkedLoginProviders")}>
+          <ul
+            id="linked-idps"
+            aria-label={t("linkedLoginProviders")}
+            className="divide-y rounded-md border bg-card"
+          >
             {linkedAccounts.length > 0 ? (
               linkedAccounts.map(
                 (account, index) =>
@@ -108,21 +109,17 @@ export const LinkedAccounts = () => {
                       isLinked
                       refresh={refresh}
                     />
-                  ),
+                  )
               )
             ) : (
               <EmptyRow message={t("linkedEmpty")} />
             )}
-          </DataList>
-        </StackItem>
-        <StackItem>
-          <Title
-            headingLevel="h2"
-            className="pf-v5-u-mt-xl pf-v5-u-mb-lg"
-            size="xl"
-          >
+          </ul>
+        </div>
+        <div>
+          <h2 className="mb-4 text-xl font-semibold">
             {t("unlinkedLoginProviders")}
-          </Title>
+          </h2>
           <LinkedAccountsToolbar
             onFilter={(search) =>
               setParamsUnlinked({ ...paramsUnlinked, first: 0, search })
@@ -134,7 +131,7 @@ export const LinkedAccounts = () => {
               setParamsUnlinked({
                 ...paramsUnlinked,
                 first: paramsUnlinked.first + paramsUnlinked.max - 1,
-              });
+              })
             }}
             onPreviousClick={() =>
               setParamsUnlinked({
@@ -151,7 +148,11 @@ export const LinkedAccounts = () => {
             }
             hasNext={unlinkedAccounts.length > paramsUnlinked.max - 1}
           />
-          <DataList id="unlinked-idps" aria-label={t("unlinkedLoginProviders")}>
+          <ul
+            id="unlinked-idps"
+            aria-label={t("unlinkedLoginProviders")}
+            className="divide-y rounded-md border bg-card"
+          >
             {unlinkedAccounts.length > 0 ? (
               unlinkedAccounts.map(
                 (account, index) =>
@@ -161,16 +162,16 @@ export const LinkedAccounts = () => {
                       account={account}
                       refresh={refresh}
                     />
-                  ),
+                  )
               )
             ) : (
               <EmptyRow message={t("unlinkedEmpty")} />
             )}
-          </DataList>
-        </StackItem>
-      </Stack>
+          </ul>
+        </div>
+      </div>
     </Page>
-  );
-};
+  )
+}
 
-export default LinkedAccounts;
+export default LinkedAccounts

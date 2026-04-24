@@ -1,49 +1,48 @@
 /**
- * WARNING: Before modifying this file, run the following command:
- * 
- * $ npx keycloakify own --path "account/root/Root.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * This file has been claimed for ownership from @keycloakify/keycloak-account-ui version 260502.0.2.
+ * To relinquish ownership and restore this file to its original content, run the following command:
+ *
+ * $ npx keycloakify own --path "account/root/Root.tsx" --revert
  */
 
 /* eslint-disable */
 
 // @ts-nocheck
 
-import {
-  ErrorPage,
-  useEnvironment,
-  KeycloakContext,
-} from "../../shared/keycloak-ui-shared";
-import { Page, Spinner } from "../../shared/@patternfly/react-core";
-import { Suspense, useState } from "react";
+import { Suspense, useState } from "react"
 import {
   createBrowserRouter,
   Outlet,
   RouteObject,
   RouterProvider,
-} from "react-router-dom";
-import fetchContentJson from "../content/fetchContent";
-import { Environment, environment } from "../environment";
-import { usePromise } from "../utils/usePromise";
-import { Header } from "./Header";
-import { MenuItem, PageNav } from "./PageNav";
-import { routes } from "../routes";
+} from "react-router-dom"
+
+import { Spinner } from "@needs/ui/components/spinner"
+
+import {
+  ErrorPage,
+  useEnvironment,
+  KeycloakContext,
+} from "../../shared/keycloak-ui-shared"
+import fetchContentJson from "../content/fetchContent"
+import { Environment, environment } from "../environment"
+import { usePromise } from "../utils/usePromise"
+import { Header } from "./Header"
+import { MenuItem, PageNav } from "./PageNav"
+import { routes } from "../routes"
 
 function mapRoutes(
   context: KeycloakContext<Environment>,
-  content: MenuItem[],
+  content: MenuItem[]
 ): RouteObject[] {
   return content
     .map((item) => {
       if ("children" in item) {
-        return mapRoutes(context, item.children);
+        return mapRoutes(context, item.children)
       }
 
-      // Do not add route disabled via feature flags
       if (item.isVisible && !context.environment.features[item.isVisible]) {
-        return null;
+        return null
       }
 
       return {
@@ -52,15 +51,29 @@ function mapRoutes(
           "path" in item
             ? routes.find((r) => r.path === (item.id ?? item.path))?.element
             : undefined,
-      };
+      }
     })
     .filter((item) => !!item)
-    .flat();
+    .flat()
 }
 
+const Shell = () => (
+  <div className="flex min-h-screen flex-col">
+    <Header />
+    <div className="flex flex-1">
+      <PageNav />
+      <main className="flex-1 overflow-auto">
+        <Suspense fallback={<Spinner />}>
+          <Outlet />
+        </Suspense>
+      </main>
+    </div>
+  </div>
+)
+
 export const Root = () => {
-  const context = useEnvironment<Environment>();
-  const [content, setContent] = useState<RouteObject[]>();
+  const context = useEnvironment<Environment>()
+  const [content, setContent] = useState<RouteObject[]>()
 
   usePromise(
     (signal) => fetchContentJson({ signal, context }),
@@ -68,22 +81,16 @@ export const Root = () => {
       setContent([
         {
           path: decodeURIComponent(new URL(environment.baseUrl).pathname),
-          element: (
-            <Page header={<Header />} sidebar={<PageNav />} isManagedSidebar>
-              <Suspense fallback={<Spinner />}>
-                <Outlet />
-              </Suspense>
-            </Page>
-          ),
+          element: <Shell />,
           errorElement: <ErrorPage />,
           children: mapRoutes(context, content),
         },
-      ]);
-    },
-  );
+      ])
+    }
+  )
 
   if (!content) {
-    return <Spinner />;
+    return <Spinner />
   }
-  return <RouterProvider router={createBrowserRouter(content)} />;
-};
+  return <RouterProvider router={createBrowserRouter(content)} />
+}

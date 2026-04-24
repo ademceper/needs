@@ -1,10 +1,8 @@
 /**
- * WARNING: Before modifying this file, run the following command:
- * 
- * $ npx keycloakify own --path "account/personal-info/PersonalInfo.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * This file has been claimed for ownership from @keycloakify/keycloak-account-ui version 260502.0.2.
+ * To relinquish ownership and restore this file to its original content, run the following command:
+ *
+ * $ npx keycloakify own --path "account/personal-info/PersonalInfo.tsx" --revert
  */
 
 /* eslint-disable */
@@ -17,46 +15,46 @@ import {
   debeerify,
   setUserProfileServerError,
   useEnvironment,
-} from "../../shared/keycloak-ui-shared";
+} from "../../shared/keycloak-ui-shared"
+import { ArrowSquareOut } from "@phosphor-icons/react"
+import { TFunction } from "i18next"
+import { useState } from "react"
+import { ErrorOption, useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
+
+import { Button } from "@needs/ui/components/button"
 import {
-  ActionGroup,
   Alert,
-  AlertVariant,
-  Button,
-  ExpandableSection,
-  Form,
-  Spinner,
-} from "../../shared/@patternfly/react-core";
-import { ExternalLinkSquareAltIcon } from "../../shared/@patternfly/react-icons";
-import { TFunction } from "i18next";
-import { useState } from "react";
-import { ErrorOption, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+  AlertDescription,
+  AlertTitle,
+} from "@needs/ui/components/alert"
+import { Spinner } from "@needs/ui/components/spinner"
 
 import {
   getPersonalInfo,
   getSupportedLocales,
   savePersonalInfo,
-} from "../api/methods";
+} from "../api/methods"
 import {
   UserProfileMetadata,
   UserRepresentation,
-} from "../api/representations";
-import { Page } from "../components/page/Page";
-import type { Environment } from "../environment";
-import { TFuncKey, i18n } from "../i18n";
-import { useAccountAlerts } from "../utils/useAccountAlerts";
-import { usePromise } from "../utils/usePromise";
+} from "../api/representations"
+import { Page } from "../components/page/Page"
+import type { Environment } from "../environment"
+import { TFuncKey, i18n } from "../i18n"
+import { useAccountAlerts } from "../utils/useAccountAlerts"
+import { usePromise } from "../utils/usePromise"
 
 export const PersonalInfo = () => {
-  const { t } = useTranslation();
-  const context = useEnvironment<Environment>();
+  const { t } = useTranslation()
+  const context = useEnvironment<Environment>()
   const [userProfileMetadata, setUserProfileMetadata] =
-    useState<UserProfileMetadata>();
-  const [supportedLocales, setSupportedLocales] = useState<string[]>([]);
-  const form = useForm<UserRepresentation>({ mode: "onChange" });
-  const { handleSubmit, reset, setValue, setError } = form;
-  const { addAlert } = useAccountAlerts();
+    useState<UserProfileMetadata>()
+  const [supportedLocales, setSupportedLocales] = useState<string[]>([])
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const form = useForm<UserRepresentation>({ mode: "onChange" })
+  const { handleSubmit, reset, setValue, setError } = form
+  const { addAlert } = useAccountAlerts()
 
   usePromise(
     (signal) =>
@@ -65,14 +63,14 @@ export const PersonalInfo = () => {
         getSupportedLocales({ signal, context }),
       ]),
     ([personalInfo, supportedLocales]) => {
-      setUserProfileMetadata(personalInfo.userProfileMetadata);
-      setSupportedLocales(supportedLocales);
-      reset(personalInfo);
+      setUserProfileMetadata(personalInfo.userProfileMetadata)
+      setSupportedLocales(supportedLocales)
+      reset(personalInfo)
       Object.entries(personalInfo.attributes || {}).forEach(([k, v]) =>
-        setValue(`attributes[${beerify(k)}]`, v),
-      );
-    },
-  );
+        setValue(`attributes[${beerify(k)}]`, v)
+      )
+    }
+  )
 
   const onSubmit = async (user: UserRepresentation) => {
     try {
@@ -80,49 +78,50 @@ export const PersonalInfo = () => {
         Object.entries(user.attributes || {}).map(([k, v]) => [
           debeerify(k),
           v,
-        ]),
-      );
-      await savePersonalInfo(context, { ...user, attributes });
-      const locale = attributes["locale"]?.toString();
+        ])
+      )
+      await savePersonalInfo(context, { ...user, attributes })
+      const locale = attributes["locale"]?.toString()
       if (locale) {
         await i18n.changeLanguage(locale, (error) => {
           if (error) {
-            console.warn("Error(s) loading locale", locale, error);
+            console.warn("Error(s) loading locale", locale, error)
           }
-        });
+        })
       }
-      await context.keycloak.updateToken();
-      addAlert(t("accountUpdatedMessage"));
+      await context.keycloak.updateToken()
+      addAlert(t("accountUpdatedMessage"))
     } catch (error) {
-      addAlert(t("accountUpdatedError"), AlertVariant.danger);
+      addAlert(t("accountUpdatedError"), "danger")
 
       setUserProfileServerError(
         { responseData: { errors: error as any } },
         (name: string | number, error: unknown) =>
           setError(name as string, error as ErrorOption),
-        ((key: TFuncKey, param?: object) => t(key, param as any)) as TFunction,
-      );
+        ((key: TFuncKey, param?: object) => t(key, param as any)) as TFunction
+      )
     }
-  };
+  }
 
   if (!userProfileMetadata) {
-    return <Spinner />;
+    return <Spinner />
   }
 
   const allFieldsReadOnly = () =>
     userProfileMetadata?.attributes
       ?.map((a) => a.readOnly)
-      .reduce((p, c) => p && c, true);
+      .reduce((p, c) => p && c, true)
 
   const {
     updateEmailFeatureEnabled,
     updateEmailActionEnabled,
     isRegistrationEmailAsUsername,
     isEditUserNameAllowed,
-  } = context.environment.features;
+  } = context.environment.features
+
   return (
     <Page title={t("personalInfo")} description={t("personalInfoDescription")}>
-      <Form isHorizontal onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
         <UserProfileFields
           form={form}
           userProfileMetadata={userProfileMetadata}
@@ -135,7 +134,7 @@ export const PersonalInfo = () => {
           renderer={(attribute) => {
             const annotations = attribute.annotations
               ? attribute.annotations
-              : {};
+              : {}
             return attribute.name === "email" &&
               updateEmailFeatureEnabled &&
               updateEmailActionEnabled &&
@@ -143,69 +142,71 @@ export const PersonalInfo = () => {
               (!isRegistrationEmailAsUsername || isEditUserNameAllowed) ? (
               <Button
                 id="update-email-btn"
+                type="button"
                 variant="link"
                 onClick={() =>
                   context.keycloak.login({ action: "UPDATE_EMAIL" })
                 }
-                icon={<ExternalLinkSquareAltIcon />}
-                iconPosition="right"
               >
                 {t("updateEmail")}
+                <ArrowSquareOut size={16} />
               </Button>
-            ) : undefined;
+            ) : undefined
           }}
         />
         {!allFieldsReadOnly() && (
-          <ActionGroup>
-            <Button
-              data-testid="save"
-              type="submit"
-              id="save-btn"
-              variant="primary"
-            >
+          <div className="flex flex-wrap items-center gap-2 pt-2">
+            <Button data-testid="save" type="submit" id="save-btn">
               {t("save")}
             </Button>
             <Button
               data-testid="cancel"
               id="cancel-btn"
+              type="button"
               variant="link"
               onClick={() => reset()}
             >
               {t("cancel")}
             </Button>
-          </ActionGroup>
+          </div>
         )}
         {context.environment.features.deleteAccountAllowed && (
-          <ExpandableSection
-            data-testid="delete-account"
-            toggleText={t("deleteAccount")}
-          >
-            <Alert
-              isInline
-              title={t("deleteAccount")}
-              variant="danger"
-              actionLinks={
-                <Button
-                  id="delete-account-btn"
-                  variant="danger"
-                  onClick={() =>
-                    context.keycloak.login({
-                      action: "delete_account",
-                    })
-                  }
-                  className="delete-button"
-                >
-                  {t("delete")}
-                </Button>
-              }
+          <div data-testid="delete-account">
+            <Button
+              type="button"
+              variant="link"
+              className="px-0"
+              onClick={() => setDeleteOpen((o) => !o)}
+              aria-expanded={deleteOpen}
             >
-              {t("deleteAccountWarning")}
-            </Alert>
-          </ExpandableSection>
+              {deleteOpen ? "▾" : "▸"} {t("deleteAccount")}
+            </Button>
+            {deleteOpen && (
+              <div className="mt-2">
+                <Alert variant="destructive">
+                  <AlertTitle>{t("deleteAccount")}</AlertTitle>
+                  <AlertDescription className="space-y-3">
+                    <p>{t("deleteAccountWarning")}</p>
+                    <Button
+                      id="delete-account-btn"
+                      type="button"
+                      variant="destructive"
+                      onClick={() =>
+                        context.keycloak.login({ action: "delete_account" })
+                      }
+                      className="delete-button"
+                    >
+                      {t("delete")}
+                    </Button>
+                  </AlertDescription>
+                </Alert>
+              </div>
+            )}
+          </div>
         )}
-      </Form>
+      </form>
     </Page>
-  );
-};
+  )
+}
 
-export default PersonalInfo;
+export default PersonalInfo

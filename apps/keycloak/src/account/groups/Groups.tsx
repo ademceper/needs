@@ -1,38 +1,32 @@
 /**
- * WARNING: Before modifying this file, run the following command:
- * 
- * $ npx keycloakify own --path "account/groups/Groups.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * This file has been claimed for ownership from @keycloakify/keycloak-account-ui version 260502.0.2.
+ * To relinquish ownership and restore this file to its original content, run the following command:
+ *
+ * $ npx keycloakify own --path "account/groups/Groups.tsx" --revert
  */
 
 /* eslint-disable */
 
 // @ts-nocheck
 
-import {
-  Checkbox,
-  DataList,
-  DataListCell,
-  DataListItem,
-  DataListItemCells,
-  DataListItemRow,
-} from "../../shared/@patternfly/react-core";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useEnvironment } from "../../shared/keycloak-ui-shared";
-import { getGroups } from "../api/methods";
-import { Group } from "../api/representations";
-import { Page } from "../components/page/Page";
-import { usePromise } from "../utils/usePromise";
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
+
+import { Checkbox } from "@needs/ui/components/checkbox"
+import { Label } from "@needs/ui/components/label"
+
+import { useEnvironment } from "../../shared/keycloak-ui-shared"
+import { getGroups } from "../api/methods"
+import { Group } from "../api/representations"
+import { Page } from "../components/page/Page"
+import { usePromise } from "../utils/usePromise"
 
 export const Groups = () => {
-  const { t } = useTranslation();
-  const context = useEnvironment();
+  const { t } = useTranslation()
+  const context = useEnvironment()
 
-  const [groups, setGroups] = useState<Group[]>([]);
-  const [directMembership, setDirectMembership] = useState(false);
+  const [groups, setGroups] = useState<Group[]>([])
+  const [directMembership, setDirectMembership] = useState(false)
 
   usePromise(
     (signal) => getGroups({ signal, context }),
@@ -42,114 +36,87 @@ export const Groups = () => {
           getParents(
             el,
             groups,
-            groups.map(({ path }) => path),
-          ),
-        );
+            groups.map(({ path }) => path)
+          )
+        )
       }
-      setGroups(groups);
+      setGroups(groups)
     },
-    [directMembership],
-  );
+    [directMembership]
+  )
 
   const getParents = (el: Group, groups: Group[], groupsPaths: string[]) => {
-    const parentPath = el.path.slice(0, el.path.lastIndexOf("/"));
+    const parentPath = el.path.slice(0, el.path.lastIndexOf("/"))
     if (parentPath && !groupsPaths.includes(parentPath)) {
       el = {
         name: parentPath.slice(parentPath.lastIndexOf("/") + 1),
         path: parentPath,
-      };
-      groups.push(el);
-      groupsPaths.push(parentPath);
+      }
+      groups.push(el)
+      groupsPaths.push(parentPath)
 
-      getParents(el, groups, groupsPaths);
+      getParents(el, groups, groupsPaths)
     }
-  };
+  }
 
   return (
     <Page title={t("groups")} description={t("groupDescriptionLabel")}>
-      <DataList id="groups-list" aria-label={t("groups")} isCompact>
-        <DataListItem
+      <div
+        id="groups-list"
+        aria-label={t("groups")}
+        className="rounded-md border bg-card"
+      >
+        <div
           id="groups-list-header"
           aria-label={t("groupsListHeader")}
+          className="flex items-center border-b px-4 py-3"
         >
-          <DataListItemRow>
-            <DataListItemCells
-              dataListCells={[
-                <DataListCell key="directMembership-header">
-                  <Checkbox
-                    label={t("directMembership")}
-                    id="directMembership-checkbox"
-                    data-testid="directMembership-checkbox"
-                    isChecked={directMembership}
-                    onChange={(_event, checked) => setDirectMembership(checked)}
-                  />
-                </DataListCell>,
-              ]}
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="directMembership-checkbox"
+              data-testid="directMembership-checkbox"
+              checked={directMembership}
+              onCheckedChange={(checked) =>
+                setDirectMembership(checked === true)
+              }
             />
-          </DataListItemRow>
-        </DataListItem>
-        <DataListItem
+            <Label htmlFor="directMembership-checkbox">
+              {t("directMembership")}
+            </Label>
+          </div>
+        </div>
+
+        <div
           id="groups-list-columns-names"
           aria-label={t("groupsListColumnsNames")}
+          className="grid grid-cols-3 gap-4 border-b px-4 py-3 text-sm font-semibold text-muted-foreground"
         >
-          <DataListItemRow>
-            <DataListItemCells
-              dataListCells={[
-                <DataListCell key="group-name-header" width={2}>
-                  <strong>{t("name")}</strong>
-                </DataListCell>,
-                <DataListCell key="group-path-header" width={2}>
-                  <strong>{t("path")}</strong>
-                </DataListCell>,
-                <DataListCell key="group-direct-membership-header" width={2}>
-                  <strong>{t("directMembership")}</strong>
-                </DataListCell>,
-              ]}
-            />
-          </DataListItemRow>
-        </DataListItem>
+          <span>{t("name")}</span>
+          <span>{t("path")}</span>
+          <span>{t("directMembership")}</span>
+        </div>
+
         {groups.map((group, appIndex) => (
-          <DataListItem
+          <div
             id={`${appIndex}-group`}
             key={"group-" + appIndex}
             aria-labelledby="groups-list"
+            className="grid grid-cols-3 items-center gap-4 border-b px-4 py-3 last:border-b-0 text-sm"
           >
-            <DataListItemRow>
-              <DataListItemCells
-                dataListCells={[
-                  <DataListCell
-                    data-testid={`group[${appIndex}].name`}
-                    width={2}
-                    key={"name-" + appIndex}
-                  >
-                    {group.name}
-                  </DataListCell>,
-                  <DataListCell
-                    id={`${appIndex}-group-path`}
-                    width={2}
-                    key={"path-" + appIndex}
-                  >
-                    {group.path}
-                  </DataListCell>,
-                  <DataListCell
-                    id={`${appIndex}-group-directMembership`}
-                    width={2}
-                    key={"directMembership-" + appIndex}
-                  >
-                    <Checkbox
-                      id={`${appIndex}-checkbox-directMembership`}
-                      isChecked={group.id != null}
-                      isDisabled={true}
-                    />
-                  </DataListCell>,
-                ]}
+            <span data-testid={`group[${appIndex}].name`}>{group.name}</span>
+            <span id={`${appIndex}-group-path`}>{group.path}</span>
+            <span id={`${appIndex}-group-directMembership`}>
+              <Checkbox
+                id={`${appIndex}-checkbox-directMembership`}
+                checked={group.id != null}
+                disabled
               />
-            </DataListItemRow>
-          </DataListItem>
+            </span>
+          </div>
         ))}
-      </DataList>
+      </div>
     </Page>
-  );
-};
+  )
+}
 
-export default Groups;
+export default Groups

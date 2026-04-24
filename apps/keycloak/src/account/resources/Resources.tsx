@@ -1,52 +1,54 @@
 /**
- * WARNING: Before modifying this file, run the following command:
- * 
- * $ npx keycloakify own --path "account/resources/Resources.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * This file has been claimed for ownership from @keycloakify/keycloak-account-ui version 260502.0.2.
+ * To relinquish ownership and restore this file to its original content, run the following command:
+ *
+ * $ npx keycloakify own --path "account/resources/Resources.tsx" --revert
  */
 
 /* eslint-disable */
 
 // @ts-nocheck
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Tab, Tabs, TabTitleText } from "../../shared/@patternfly/react-core";
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
-import { ResourcesTab } from "./ResourcesTab";
-import { Page } from "../components/page/Page";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@needs/ui/components/tabs"
+
+import { ResourcesTab } from "./ResourcesTab"
+import { Page } from "../components/page/Page"
 
 export const Resources = () => {
-  const { t } = useTranslation();
-  const [activeTabKey, setActiveTabKey] = useState(0);
+  const { t } = useTranslation()
+  const [activeTab, setActiveTab] = useState<"my" | "shared">("my")
 
   return (
     <Page title={t("resources")} description={t("resourceIntroMessage")}>
       <Tabs
-        activeKey={activeTabKey}
-        onSelect={(_, key) => setActiveTabKey(key as number)}
-        mountOnEnter
-        unmountOnExit
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as "my" | "shared")}
       >
-        <Tab
-          data-testid="myResources"
-          eventKey={0}
-          title={<TabTitleText>{t("myResources")}</TabTitleText>}
-        >
+        <TabsList>
+          <TabsTrigger value="my" data-testid="myResources">
+            {t("myResources")}
+          </TabsTrigger>
+          <TabsTrigger value="shared" data-testid="sharedWithMe">
+            {t("sharedWithMe")}
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="my">
           <ResourcesTab />
-        </Tab>
-        <Tab
-          data-testid="sharedWithMe"
-          eventKey={1}
-          title={<TabTitleText>{t("sharedWithMe")}</TabTitleText>}
-        >
+        </TabsContent>
+        <TabsContent value="shared">
           <ResourcesTab isShared />
-        </Tab>
+        </TabsContent>
       </Tabs>
     </Page>
-  );
-};
+  )
+}
 
-export default Resources;
+export default Resources

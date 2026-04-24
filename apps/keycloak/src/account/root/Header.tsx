@@ -1,10 +1,8 @@
 /**
- * WARNING: Before modifying this file, run the following command:
+ * This file has been claimed for ownership from @keycloakify/keycloak-account-ui version 260502.0.2.
+ * To relinquish ownership and restore this file to its original content, run the following command:
  * 
- * $ npx keycloakify own --path "account/root/Header.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * $ npx keycloakify own --path "account/root/Header.tsx" --revert
  */
 
 /* eslint-disable */
@@ -17,8 +15,8 @@ import {
   label,
   useEnvironment,
 } from "../../shared/keycloak-ui-shared";
-import { Button } from "../../shared/@patternfly/react-core";
-import { ExternalLinkSquareAltIcon } from "../../shared/@patternfly/react-icons";
+import { Button } from "@needs/ui/components/button";
+import { ArrowSquareOut as ExternalLinkSquareAltIcon } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { useHref } from "react-router-dom";
 
@@ -31,18 +29,16 @@ const ReferrerLink = () => {
   const { t } = useTranslation();
 
   return environment.referrerUrl ? (
-    <Button
-      data-testid="referrer-link"
-      component="a"
-      href={environment.referrerUrl.replace("_hash_", "#")}
-      variant="link"
-      icon={<ExternalLinkSquareAltIcon />}
-      iconPosition="right"
-      isInline
-    >
-      {t("backTo", {
-        app: label(t, environment.referrerName, environment.referrerUrl),
-      })}
+    <Button asChild variant="link" className="inline-flex h-auto p-0">
+      <a
+        data-testid="referrer-link"
+        href={environment.referrerUrl.replace("_hash_", "#")}
+      >
+        {t("backTo", {
+          app: label(t, environment.referrerName, environment.referrerUrl),
+        })}
+        <ExternalLinkSquareAltIcon size={16} />
+      </a>
     </Button>
   ) : null;
 };

@@ -1,16 +1,11 @@
 /**
- * WARNING: Before modifying this file, run the following command:
+ * This file has been claimed for ownership from @keycloakify/keycloak-account-ui version 260502.0.2.
+ * To relinquish ownership and restore this file to its original content, run the following command:
  * 
- * $ npx keycloakify own --path "account/KcAccountUi.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * $ npx keycloakify own --path "account/KcAccountUi.tsx" --revert
  */
 
-/* eslint-disable */
-
-import "@patternfly/patternfly/patternfly-addons.css";
-import "@patternfly/react-core/dist/styles/base.css";
+import "@needs/ui/globals.css";
 
 import { useReducer, useEffect } from "react";
 import { startColorSchemeManagement } from "./colorScheme";

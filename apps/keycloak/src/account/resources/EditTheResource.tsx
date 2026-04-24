@@ -1,115 +1,124 @@
 /**
- * WARNING: Before modifying this file, run the following command:
- * 
- * $ npx keycloakify own --path "account/resources/EditTheResource.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * This file has been claimed for ownership from @keycloakify/keycloak-account-ui version 260502.0.2.
+ * To relinquish ownership and restore this file to its original content, run the following command:
+ *
+ * $ npx keycloakify own --path "account/resources/EditTheResource.tsx" --revert
  */
 
 /* eslint-disable */
 
 // @ts-nocheck
 
+import { Fragment, useEffect } from "react"
+import { FormProvider, useFieldArray, useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
+
+import { Button } from "@needs/ui/components/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@needs/ui/components/dialog"
+
 import {
   SelectControl,
   TextControl,
   useEnvironment,
-} from "../../shared/keycloak-ui-shared";
-import { Button, Form, Modal } from "../../shared/@patternfly/react-core";
-import { Fragment, useEffect } from "react";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-
-import { updatePermissions } from "../api";
-import type { Permission, Resource } from "../api/representations";
-import { useAccountAlerts } from "../utils/useAccountAlerts";
+} from "../../shared/keycloak-ui-shared"
+import { updatePermissions } from "../api"
+import type { Permission, Resource } from "../api/representations"
+import { useAccountAlerts } from "../utils/useAccountAlerts"
 
 type EditTheResourceProps = {
-  resource: Resource;
-  permissions?: Permission[];
-  onClose: () => void;
-};
+  resource: Resource
+  permissions?: Permission[]
+  onClose: () => void
+}
 
 type FormValues = {
-  permissions: Permission[];
-};
+  permissions: Permission[]
+}
 
 export const EditTheResource = ({
   resource,
   permissions,
   onClose,
 }: EditTheResourceProps) => {
-  const { t } = useTranslation();
-  const context = useEnvironment();
-  const { addAlert, addError } = useAccountAlerts();
+  const { t } = useTranslation()
+  const context = useEnvironment()
+  const { addAlert, addError } = useAccountAlerts()
 
-  const form = useForm<FormValues>();
-  const { control, reset, handleSubmit } = form;
+  const form = useForm<FormValues>()
+  const { control, reset, handleSubmit } = form
 
   const { fields } = useFieldArray<FormValues>({
     control,
     name: "permissions",
-  });
+  })
 
-  useEffect(() => reset({ permissions }), []);
+  useEffect(() => reset({ permissions }), [])
 
   const editShares = async ({ permissions }: FormValues) => {
     try {
       await Promise.all(
         permissions.map((permission) =>
-          updatePermissions(context, resource._id, [permission]),
-        ),
-      );
-      addAlert(t("updateSuccess"));
-      onClose();
+          updatePermissions(context, resource._id, [permission])
+        )
+      )
+      addAlert(t("updateSuccess"))
+      onClose()
     } catch (error) {
-      addError("updateError", error);
+      addError("updateError", error)
     }
-  };
+  }
 
   return (
-    <Modal
-      title={t("editTheResource", { name: resource.name })}
-      variant="medium"
-      isOpen
-      onClose={onClose}
-      actions={[
-        <Button
-          key="confirm"
-          variant="primary"
-          id="done"
-          type="submit"
-          form="edit-form"
+    <Dialog open onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>
+            {t("editTheResource", { name: resource.name })}
+          </DialogTitle>
+        </DialogHeader>
+
+        <form
+          id="edit-form"
+          onSubmit={handleSubmit(editShares)}
+          className="space-y-4"
+          noValidate
         >
-          {t("done")}
-        </Button>,
-      ]}
-    >
-      <Form id="edit-form" onSubmit={handleSubmit(editShares)}>
-        <FormProvider {...form}>
-          {fields.map((p, index) => (
-            <Fragment key={p.id}>
-              <TextControl
-                name={`permissions.${index}.username`}
-                label={t("user")}
-                isDisabled
-              />
-              <SelectControl
-                id={`permissions-${p.id}`}
-                name={`permissions.${index}.scopes`}
-                label="permissions"
-                variant="typeaheadMulti"
-                controller={{ defaultValue: [] }}
-                options={resource.scopes.map(({ name, displayName }) => ({
-                  key: name,
-                  value: displayName || name,
-                }))}
-              />
-            </Fragment>
-          ))}
-        </FormProvider>
-      </Form>
-    </Modal>
-  );
-};
+          <FormProvider {...form}>
+            {fields.map((p, index) => (
+              <Fragment key={p.id}>
+                <TextControl
+                  name={`permissions.${index}.username`}
+                  label={t("user")}
+                  isDisabled
+                />
+                <SelectControl
+                  id={`permissions-${p.id}`}
+                  name={`permissions.${index}.scopes`}
+                  label="permissions"
+                  variant="typeaheadMulti"
+                  controller={{ defaultValue: [] }}
+                  options={resource.scopes.map(({ name, displayName }) => ({
+                    key: name,
+                    value: displayName || name,
+                  }))}
+                />
+              </Fragment>
+            ))}
+          </FormProvider>
+        </form>
+
+        <DialogFooter>
+          <Button id="done" type="submit" form="edit-form">
+            {t("done")}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}

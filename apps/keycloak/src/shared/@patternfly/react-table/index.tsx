@@ -1,13 +1,9 @@
 /**
- * WARNING: Before modifying this file, run the following command:
+ * This file has been claimed for ownership from @keycloakify/keycloak-ui-shared version 260502.0.0.
+ * To relinquish ownership and restore this file to its original content, run the following command:
  * 
- * $ npx keycloakify own --path "shared/@patternfly/react-table/index.tsx"
- * 
- * This file is provided by @keycloakify/keycloak-ui-shared version 260502.0.0.
- * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ * $ npx keycloakify own --path "shared/@patternfly/react-table/index.tsx" --revert
  */
-
-/* eslint-disable */
 
 // eslint-disable-next-line react-refresh/only-export-components
 export * from "@patternfly/react-table";
