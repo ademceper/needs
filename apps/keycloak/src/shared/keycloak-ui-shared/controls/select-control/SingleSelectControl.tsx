@@ -1,7 +1,7 @@
 /**
  * This file has been claimed for ownership from @keycloakify/keycloak-ui-shared version 260502.0.0.
  * To relinquish ownership and restore this file to its original content, run the following command:
- * 
+ *
  * $ npx keycloakify own --path "shared/keycloak-ui-shared/controls/select-control/SingleSelectControl.tsx" --revert
  */
 
@@ -9,29 +9,30 @@
 
 // @ts-nocheck
 
-import {
-  MenuToggle,
-  MenuToggleStatus,
-  Select,
-  SelectList,
-  SelectOption,
-} from "../../../@patternfly/react-core";
-import { get } from "lodash-es";
-import { useState } from "react";
+import { get } from "lodash-es"
 import {
   Controller,
   FieldPath,
   FieldValues,
   useFormContext,
-} from "react-hook-form";
-import { getRuleValue } from "../../utils/getRuleValue";
-import { FormLabel } from "../FormLabel";
+} from "react-hook-form"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@needs/ui/components/select"
+
+import { getRuleValue } from "../../utils/getRuleValue"
+import { FormLabel } from "../FormLabel"
 import {
   SelectControlProps,
   isSelectBasedOptions,
   isString,
   key,
-} from "./SelectControl";
+} from "./SelectControl"
 
 export const SingleSelectControl = <
   T extends FieldValues,
@@ -46,14 +47,14 @@ export const SingleSelectControl = <
   labelIcon,
   isDisabled,
   onSelect,
-  ...rest
+  placeholderText,
 }: SelectControlProps<T, P>) => {
   const {
     control,
     formState: { errors },
-  } = useFormContext();
-  const [open, setOpen] = useState(false);
-  const required = getRuleValue(controller.rules?.required) === true;
+  } = useFormContext()
+  const required = getRuleValue(controller.rules?.required) === true
+  const combined = [...options, ...selectedOptions]
 
   return (
     <FormLabel
@@ -68,64 +69,40 @@ export const SingleSelectControl = <
         {...controller}
         name={name}
         control={control}
-        render={({ field: { onChange, value } }) => (
-          <Select
-            {...rest}
-            variant="default"
-            onClick={() => setOpen(!open)}
-            onOpenChange={() => setOpen(false)}
-            selected={
-              isSelectBasedOptions(options)
-                ? options
-                    .filter((o) =>
-                      Array.isArray(value)
-                        ? value.includes(o.key)
-                        : value === o.key,
-                    )
-                    .map((o) => o.value)
-                : value
-            }
-            toggle={(ref) => (
-              <MenuToggle
+        render={({ field: { onChange, value } }) => {
+          const currentKey = Array.isArray(value) ? value[0] ?? "" : value ?? ""
+          return (
+            <Select
+              value={String(currentKey ?? "")}
+              disabled={isDisabled}
+              onValueChange={(next) => {
+                const converted = Array.isArray(value) ? [next] : next
+                if (onSelect) {
+                  onSelect(converted, onChange)
+                } else {
+                  onChange(converted)
+                }
+              }}
+            >
+              <SelectTrigger
                 id={id || name}
-                ref={ref}
-                onClick={() => setOpen(!open)}
-                isExpanded={open}
-                isFullWidth
-                status={get(errors, name) ? MenuToggleStatus.danger : undefined}
                 aria-label={label}
-                isDisabled={isDisabled}
+                data-testid={`select-${name}`}
+                className={get(errors, name) ? "border-destructive" : undefined}
               >
-                {isSelectBasedOptions(options)
-                  ? options.find(
-                      (o) =>
-                        o.key === (Array.isArray(value) ? value[0] : value),
-                    )?.value
-                  : value}
-              </MenuToggle>
-            )}
-            onSelect={(_event, v) => {
-              const option = v?.toString()!;
-              const convertedValue = Array.isArray(value) ? [option] : option;
-              if (onSelect) {
-                onSelect(convertedValue, onChange);
-              } else {
-                onChange(convertedValue);
-              }
-              setOpen(false);
-            }}
-            isOpen={open}
-          >
-            <SelectList data-testid={`select-${name}`}>
-              {[...options, ...selectedOptions].map((option) => (
-                <SelectOption key={key(option)} value={key(option)}>
-                  {isString(option) ? option : option.value}
-                </SelectOption>
-              ))}
-            </SelectList>
-          </Select>
-        )}
+                <SelectValue placeholder={placeholderText} />
+              </SelectTrigger>
+              <SelectContent>
+                {combined.map((option) => (
+                  <SelectItem key={key(option)} value={String(key(option))}>
+                    {isString(option) ? option : option.value}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )
+        }}
       />
     </FormLabel>
-  );
-};
+  )
+}

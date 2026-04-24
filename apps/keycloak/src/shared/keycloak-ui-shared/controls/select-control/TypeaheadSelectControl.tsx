@@ -1,7 +1,7 @@
 /**
  * This file has been claimed for ownership from @keycloakify/keycloak-ui-shared version 260502.0.0.
  * To relinquish ownership and restore this file to its original content, run the following command:
- * 
+ *
  * $ npx keycloakify own --path "shared/keycloak-ui-shared/controls/select-control/TypeaheadSelectControl.tsx" --revert
  */
 
@@ -9,31 +9,28 @@
 
 // @ts-nocheck
 
-import {
-  Button,
-  Chip,
-  ChipGroup,
-  MenuToggle,
-  MenuToggleStatus,
-  Select,
-  SelectList,
-  SelectOption,
-  TextInputGroup,
-  TextInputGroupMain,
-  TextInputGroupUtilities,
-} from "../../../@patternfly/react-core";
-import { TimesIcon } from "../../../@patternfly/react-icons";
-import { get } from "lodash-es";
-import { useMemo, useRef, useState } from "react";
+import { X, CaretDown } from "@phosphor-icons/react"
+import { get } from "lodash-es"
+import { useMemo, useRef, useState } from "react"
 import {
   Controller,
-  ControllerRenderProps,
   FieldPath,
   FieldValues,
   useFormContext,
-} from "react-hook-form";
-import { getRuleValue } from "../../utils/getRuleValue";
-import { FormLabel } from "../FormLabel";
+} from "react-hook-form"
+
+import { cn } from "@needs/ui/lib/utils"
+import { Button } from "@needs/ui/components/button"
+import { Input } from "@needs/ui/components/input"
+import { Badge } from "@needs/ui/components/badge"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@needs/ui/components/popover"
+
+import { getRuleValue } from "../../utils/getRuleValue"
+import { FormLabel } from "../FormLabel"
 import {
   OptionType,
   SelectControlOption,
@@ -42,10 +39,10 @@ import {
   isSelectBasedOptions,
   isString,
   key,
-} from "./SelectControl";
+} from "./SelectControl"
 
 const getValue = (option: SelectControlOption | string) =>
-  isString(option) ? option : option.value;
+  isString(option) ? option : option.value
 
 export const TypeaheadSelectControl = <
   T extends FieldValues,
@@ -61,122 +58,37 @@ export const TypeaheadSelectControl = <
   placeholderText,
   onFilter,
   variant,
-  ...rest
 }: SelectControlProps<T, P>) => {
   const {
     control,
     formState: { errors },
-  } = useFormContext();
-  const [open, setOpen] = useState(false);
-  const [filterValue, setFilterValue] = useState("");
-  const [focusedItemIndex, setFocusedItemIndex] = useState<number>(0);
-  const [selectedOptionsState, setSelectedOptions] = useState<
-    SelectControlOption[]
-  >([]);
-  const textInputRef = useRef<HTMLInputElement>();
-  const required = getRuleValue(controller.rules?.required) === true;
-  const isTypeaheadMulti = variant === SelectVariant.typeaheadMulti;
+  } = useFormContext()
+  const [open, setOpen] = useState(false)
+  const [filterValue, setFilterValue] = useState("")
+  const inputRef = useRef<HTMLInputElement>(null)
+  const required = getRuleValue(controller.rules?.required) === true
+  const isTypeaheadMulti = variant === SelectVariant.typeaheadMulti
 
   const combinedOptions = useMemo(
     () =>
       [
         ...options.filter(
-          (o) => !selectedOptions.map((o) => getValue(o)).includes(getValue(o)),
+          (o) =>
+            !selectedOptions.map((s) => getValue(s)).includes(getValue(o))
         ),
         ...selectedOptions,
       ] as OptionType,
-    [selectedOptions, options],
-  );
+    [selectedOptions, options]
+  )
 
   const filteredOptions = combinedOptions.filter((option) =>
-    getValue(option).toLowerCase().startsWith(filterValue.toLowerCase()),
-  );
+    getValue(option).toLowerCase().startsWith(filterValue.toLowerCase())
+  )
 
-  const updateValue = (
-    option: string | string[],
-    field: ControllerRenderProps<FieldValues, string>,
-  ) => {
-    if (field.value.includes(option)) {
-      field.onChange(field.value.filter((item: string) => item !== option));
-      if (isSelectBasedOptions(options)) {
-        setSelectedOptions(
-          selectedOptionsState.filter((item) => item.key !== option),
-        );
-      }
-    } else {
-      field.onChange([...field.value, option]);
-      if (isSelectBasedOptions(combinedOptions)) {
-        setSelectedOptions([
-          ...selectedOptionsState,
-          combinedOptions.find((o) => o.key === option)!,
-        ]);
-      }
-    }
-  };
-
-  const onInputKeyDown = (
-    event: React.KeyboardEvent<HTMLDivElement>,
-    field: ControllerRenderProps<FieldValues, string>,
-  ) => {
-    const focusedItem = filteredOptions[focusedItemIndex];
-    setOpen(true);
-
-    switch (event.key) {
-      case "Enter": {
-        event.preventDefault();
-
-        if (!isTypeaheadMulti) {
-          setFilterValue(getValue(focusedItem));
-        } else {
-          setFilterValue("");
-        }
-
-        updateValue(key(focusedItem), field);
-
-        setOpen(false);
-        setFocusedItemIndex(0);
-
-        break;
-      }
-      case "Tab":
-      case "Escape": {
-        setOpen(false);
-        field.onChange(undefined);
-        break;
-      }
-      case "Backspace": {
-        if (variant === SelectVariant.typeahead) {
-          field.onChange("");
-        }
-        break;
-      }
-      case "ArrowUp":
-      case "ArrowDown": {
-        event.preventDefault();
-
-        let indexToFocus = 0;
-
-        if (event.key === "ArrowUp") {
-          if (focusedItemIndex === 0) {
-            indexToFocus = options.length - 1;
-          } else {
-            indexToFocus = focusedItemIndex - 1;
-          }
-        }
-
-        if (event.key === "ArrowDown") {
-          if (focusedItemIndex === options.length - 1) {
-            indexToFocus = 0;
-          } else {
-            indexToFocus = focusedItemIndex + 1;
-          }
-        }
-
-        setFocusedItemIndex(indexToFocus);
-        break;
-      }
-    }
-  };
+  const findValue = (k: string) =>
+    isSelectBasedOptions(combinedOptions)
+      ? combinedOptions.find((o) => o.key === k)?.value ?? k
+      : k
 
   return (
     <FormLabel
@@ -191,137 +103,150 @@ export const TypeaheadSelectControl = <
         {...controller}
         name={name}
         control={control}
-        render={({ field }) => (
-          <Select
-            {...rest}
-            onOpenChange={() => setOpen(false)}
-            selected={
-              isSelectBasedOptions(combinedOptions)
-                ? combinedOptions
-                    .filter((o) =>
-                      Array.isArray(field.value)
-                        ? field.value.includes(o.key)
-                        : field.value === o.key,
-                    )
-                    .map((o) => o.value)
-                : field.value
-            }
-            shouldFocusFirstItemOnOpen={false}
-            toggle={(ref) => (
-              <MenuToggle
-                ref={ref}
-                id={id || name}
-                variant="typeahead"
-                onClick={() => {
-                  setOpen(!open);
-                  textInputRef.current?.focus();
-                }}
-                isExpanded={open}
-                isFullWidth
-                status={get(errors, name) ? MenuToggleStatus.danger : undefined}
-              >
-                <TextInputGroup isPlain>
-                  <TextInputGroupMain
-                    placeholder={placeholderText}
-                    value={
-                      variant === SelectVariant.typeahead && field.value
-                        ? isSelectBasedOptions(combinedOptions)
-                          ? combinedOptions.find(
-                              (o) =>
-                                o.key ===
-                                (Array.isArray(field.value)
-                                  ? field.value[0]
-                                  : field.value),
-                            )?.value
-                          : field.value
-                        : filterValue
-                    }
-                    onClick={() => setOpen(!open)}
-                    onChange={(_, value) => {
-                      setFilterValue(value);
-                      onFilter?.(value);
-                    }}
-                    onKeyDown={(event) => onInputKeyDown(event, field)}
-                    autoComplete="off"
-                    innerRef={textInputRef}
-                    role="combobox"
-                    isExpanded={open}
-                    aria-controls="select-typeahead-listbox"
-                  >
-                    {variant === SelectVariant.typeaheadMulti &&
-                      Array.isArray(field.value) && (
-                        <ChipGroup aria-label="Current selections">
-                          {field.value.map(
-                            (selection: string, index: number) => (
-                              <Chip
-                                key={index}
-                                onClick={(ev) => {
-                                  ev.stopPropagation();
-                                  field.onChange(
-                                    field.value.filter(
-                                      (item: string) => item !== key(selection),
-                                    ),
-                                  );
-                                }}
-                              >
-                                {isSelectBasedOptions(combinedOptions)
-                                  ? [
-                                      ...combinedOptions,
-                                      ...selectedOptionsState,
-                                    ].find((o) => selection === o.key)?.value
-                                  : getValue(selection)}
-                              </Chip>
-                            ),
-                          )}
-                        </ChipGroup>
-                      )}
-                  </TextInputGroupMain>
-                  <TextInputGroupUtilities>
-                    {(!!filterValue || field.value) && (
-                      <Button
-                        variant="plain"
-                        onClick={() => {
-                          setFilterValue("");
-                          field.onChange(isTypeaheadMulti ? [] : "");
-                          textInputRef?.current?.focus();
+        render={({ field }) => {
+          const arrayValue: string[] = Array.isArray(field.value)
+            ? field.value
+            : field.value
+              ? [field.value]
+              : []
+          const singleKey = Array.isArray(field.value)
+            ? field.value[0] ?? ""
+            : field.value ?? ""
+
+          const triggerContent =
+            variant === SelectVariant.typeahead
+              ? findValue(singleKey) || placeholderText || ""
+              : placeholderText || ""
+
+          const clear = () => {
+            setFilterValue("")
+            field.onChange(isTypeaheadMulti ? [] : "")
+          }
+
+          return (
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  id={id || name}
+                  aria-expanded={open}
+                  className={cn(
+                    "flex w-full items-center justify-between rounded-md border bg-background px-3 py-2 text-sm",
+                    get(errors, name) && "border-destructive"
+                  )}
+                >
+                  <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
+                    {isTypeaheadMulti && arrayValue.length > 0 ? (
+                      arrayValue.map((selection) => (
+                        <Badge
+                          key={selection}
+                          variant="secondary"
+                          className="cursor-pointer"
+                          onClick={(ev) => {
+                            ev.stopPropagation()
+                            field.onChange(
+                              arrayValue.filter((item) => item !== selection)
+                            )
+                          }}
+                        >
+                          {findValue(selection)} ×
+                        </Badge>
+                      ))
+                    ) : (
+                      <span
+                        className={cn(
+                          "truncate text-left",
+                          !triggerContent && "text-muted-foreground"
+                        )}
+                      >
+                        {triggerContent || placeholderText}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {(filterValue || arrayValue.length > 0) && (
+                      <span
+                        role="button"
+                        tabIndex={-1}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          clear()
                         }}
                         aria-label="Clear input value"
+                        className="text-muted-foreground hover:text-foreground"
                       >
-                        <TimesIcon aria-hidden />
-                      </Button>
+                        <X size={14} />
+                      </span>
                     )}
-                  </TextInputGroupUtilities>
-                </TextInputGroup>
-              </MenuToggle>
-            )}
-            onSelect={(event, v) => {
-              event?.stopPropagation();
-              const option = v?.toString();
-              if (isTypeaheadMulti && Array.isArray(field.value)) {
-                setFilterValue("");
-                updateValue(option || "", field);
-              } else {
-                field.onChange(Array.isArray(field.value) ? [option] : option);
-                setOpen(false);
-              }
-            }}
-            isOpen={open}
-          >
-            <SelectList>
-              {filteredOptions.map((option, index) => (
-                <SelectOption
-                  key={key(option)}
-                  value={key(option)}
-                  isFocused={focusedItemIndex === index}
-                  isActive={field.value.includes(getValue(option))}
+                    <CaretDown size={14} className="text-muted-foreground" />
+                  </div>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                className="w-(--radix-popover-trigger-width) p-2"
+              >
+                <Input
+                  ref={inputRef}
+                  placeholder={placeholderText}
+                  value={filterValue}
+                  onChange={(e) => {
+                    setFilterValue(e.target.value)
+                    onFilter?.(e.target.value)
+                  }}
+                  className="mb-2"
+                />
+                <ul
+                  role="listbox"
+                  className="max-h-60 overflow-auto text-sm"
                 >
-                  {getValue(option)}
-                </SelectOption>
-              ))}
-            </SelectList>
-          </Select>
-        )}
+                  {filteredOptions.map((option) => {
+                    const k = String(key(option))
+                    const active = arrayValue.includes(k)
+                    return (
+                      <li key={k}>
+                        <button
+                          type="button"
+                          role="option"
+                          aria-selected={active}
+                          onClick={() => {
+                            if (isTypeaheadMulti) {
+                              if (active) {
+                                field.onChange(
+                                  arrayValue.filter((v) => v !== k)
+                                )
+                              } else {
+                                field.onChange([...arrayValue, k])
+                              }
+                              setFilterValue("")
+                            } else {
+                              field.onChange(
+                                Array.isArray(field.value) ? [k] : k
+                              )
+                              setOpen(false)
+                            }
+                          }}
+                          className={cn(
+                            "block w-full rounded-sm px-2 py-1.5 text-left hover:bg-muted",
+                            active && "bg-muted font-medium"
+                          )}
+                        >
+                          {getValue(option)}
+                        </button>
+                      </li>
+                    )
+                  })}
+                  {filteredOptions.length === 0 && (
+                    <li className="px-2 py-1.5 text-muted-foreground">
+                      —
+                    </li>
+                  )}
+                </ul>
+              </PopoverContent>
+            </Popover>
+          )
+        }}
       />
     </FormLabel>
-  );
-};
+  )
+}

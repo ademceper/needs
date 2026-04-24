@@ -1,7 +1,7 @@
 /**
  * This file has been claimed for ownership from @keycloakify/keycloak-ui-shared version 260502.0.0.
  * To relinquish ownership and restore this file to its original content, run the following command:
- * 
+ *
  * $ npx keycloakify own --path "shared/keycloak-ui-shared/user-profile/TextAreaComponent.tsx" --revert
  */
 
@@ -9,27 +9,28 @@
 
 // @ts-nocheck
 
-import { KeycloakTextArea } from "../controls/keycloak-text-area/KeycloakTextArea";
-import { UserProfileFieldProps } from "./UserProfileFields";
-import { UserProfileGroup } from "./UserProfileGroup";
-import { fieldName, isRequiredAttribute } from "./utils";
+import { Textarea } from "@needs/ui/components/textarea"
+
+import { UserProfileFieldProps } from "./UserProfileFields"
+import { UserProfileGroup } from "./UserProfileGroup"
+import { fieldName, isRequiredAttribute } from "./utils"
 
 export const TextAreaComponent = (props: UserProfileFieldProps) => {
-  const { form, attribute } = props;
-  const isRequired = isRequiredAttribute(attribute);
+  const { form, attribute } = props
+  const isRequired = isRequiredAttribute(attribute)
 
   return (
     <UserProfileGroup {...props}>
-      <KeycloakTextArea
+      <Textarea
         id={attribute.name}
         data-testid={attribute.name}
         {...form.register(fieldName(attribute.name))}
         cols={attribute.annotations?.["inputTypeCols"] as number}
-        rows={attribute.annotations?.["inputTypeRows"] as number}
+        rows={(attribute.annotations?.["inputTypeRows"] as number) ?? 4}
         readOnly={attribute.readOnly}
-        isRequired={isRequired}
+        required={isRequired}
         defaultValue={attribute.defaultValue}
       />
     </UserProfileGroup>
-  );
-};
+  )
+}
