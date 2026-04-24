@@ -54,31 +54,33 @@ export const Header = () => {
 
   return (
     <header data-testid="page-header" className="bg-background">
-      <div className="mx-auto flex w-full max-w-5xl items-center gap-4 border-b px-4 py-5 sm:px-6 lg:px-8">
-        <a
-          href={indexHref}
-          className="inline-flex items-center text-2xl tracking-tight md:text-3xl"
-          style={{ fontFamily: '"Climate Crisis", sans-serif' }}
-          aria-label={realmName}
-        >
-          {realmName}
-        </a>
-
-        <div className="ml-auto flex items-center gap-3">
-          <ReferrerLink />
-
-          <span className="hidden text-sm text-muted-foreground sm:inline">
-            {userDisplayName(keycloak, t("unknownUser"))}
-          </span>
-
-          <Button
-            variant="outline"
-            data-testid="sign-out"
-            onClick={() => keycloak.logout()}
+      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-4 border-b py-5">
+          <a
+            href={indexHref}
+            className="inline-flex items-center text-2xl tracking-tight md:text-3xl"
+            style={{ fontFamily: '"Climate Crisis", sans-serif' }}
+            aria-label={realmName}
           >
-            <SignOut size={16} />
-            {t("signOut")}
-          </Button>
+            {realmName}
+          </a>
+
+          <div className="ml-auto flex items-center gap-3">
+            <ReferrerLink />
+
+            <span className="hidden text-sm text-muted-foreground sm:inline">
+              {userDisplayName(keycloak, t("unknownUser"))}
+            </span>
+
+            <Button
+              variant="outline"
+              data-testid="sign-out"
+              onClick={() => keycloak.logout()}
+            >
+              <SignOut size={16} />
+              {t("signOut")}
+            </Button>
+          </div>
         </div>
       </div>
     </header>
