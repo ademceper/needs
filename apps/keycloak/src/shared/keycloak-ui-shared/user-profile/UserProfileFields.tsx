@@ -14,7 +14,6 @@ import {
   UserProfileAttributeMetadata,
   UserProfileMetadata,
 } from "@keycloak/keycloak-admin-client/lib/defs/userProfileMetadata";
-import { Text } from "../../@patternfly/react-core";
 import { TFunction } from "i18next";
 import { ReactNode, useMemo, type JSX } from "react";
 import { FieldPath, UseFormReturn } from "react-hook-form";
@@ -151,11 +150,11 @@ export const UserProfileFields = ({
         .map(({ group, attributes }) => ({
           title: label(t, group.displayHeader, group.name) || t("general"),
           panel: (
-            <div className="pf-v5-c-form">
+            <div className="space-y-4">
               {group.displayDescription && (
-                <Text className="pf-v5-u-pb-lg">
+                <p className="pb-2 text-sm text-muted-foreground">
                   {label(t, group.displayDescription, "")}
-                </Text>
+                </p>
               )}
               {attributes.map((attribute) => (
                 <FormField
