@@ -11,13 +11,7 @@
 
 import { label, useEnvironment } from "../../shared/keycloak-ui-shared"
 import { Button } from "@needs/ui/components/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@needs/ui/components/dropdown-menu"
-import { ArrowSquareOut, CaretDown } from "@phosphor-icons/react"
+import { ArrowSquareOut, SignOut } from "@phosphor-icons/react"
 import { useTranslation } from "react-i18next"
 import { useHref } from "react-router-dom"
 
@@ -73,23 +67,18 @@ export const Header = () => {
         <div className="ml-auto flex items-center gap-3">
           <ReferrerLink />
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                data-testid="options-toggle"
-                className="gap-1"
-              >
-                <span>{userDisplayName(keycloak, t("unknownUser"))}</span>
-                <CaretDown size={14} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => keycloak.logout()}>
-                {t("signOut")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <span className="hidden text-sm text-muted-foreground sm:inline">
+            {userDisplayName(keycloak, t("unknownUser"))}
+          </span>
+
+          <Button
+            variant="outline"
+            data-testid="sign-out"
+            onClick={() => keycloak.logout()}
+          >
+            <SignOut size={16} />
+            {t("signOut")}
+          </Button>
         </div>
       </div>
     </header>
