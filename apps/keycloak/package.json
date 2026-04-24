@@ -5,6 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "postinstall": "keycloakify sync-extensions",
     "dev": "keycloakify start-keycloak --keycloak-version 26",
     "build": "tsc && vite build",
     "build-keycloak-theme": "pnpm build && keycloakify build",
@@ -19,7 +20,8 @@
     "@phosphor-icons/react": "^2.1.10",
     "keycloakify": "^11.15.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@keycloakify/keycloak-account-ui": "~260502.0.2"
   },
   "devDependencies": {
     "@needs/ts-cfg": "workspace:*",
