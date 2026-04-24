@@ -1,0 +1,12 @@
+/**
+ * WARNING: Before modifying this file, run the following command:
+ * 
+ * $ npx keycloakify own --path "account/root/header.module.css"
+ * 
+ * This file is provided by @keycloakify/keycloak-account-ui version 260502.0.2.
+ * It was copied into your repository by the postinstall script: `keycloakify sync-extensions`.
+ */
+
+.brand {
+  height: 35px;
+}
