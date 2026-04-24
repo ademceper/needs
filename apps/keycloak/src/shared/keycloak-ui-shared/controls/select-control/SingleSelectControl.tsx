@@ -94,7 +94,12 @@ export const SingleSelectControl = <
                 id={id || name}
                 aria-label={label}
                 data-testid={`select-${name}`}
-                className={get(errors, name) ? "border-destructive" : undefined}
+                className={[
+                  "h-12 w-full rounded-2xl border-transparent bg-muted px-4 hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 dark:bg-muted/60 dark:hover:bg-muted/70",
+                  get(errors, name) && "border-destructive",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
               >
                 <SelectValue placeholder={placeholderText} />
               </SelectTrigger>

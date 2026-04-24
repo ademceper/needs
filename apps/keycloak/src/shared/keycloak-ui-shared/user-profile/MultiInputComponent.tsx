@@ -116,6 +116,8 @@ const MultiLineInput = ({
               value={value}
               disabled={isDisabled}
               type={type}
+              variant="secondary"
+              size="xl"
               {...rest}
             />
             <Button

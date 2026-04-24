@@ -9,6 +9,7 @@
 
 // @ts-nocheck
 
+import { cn } from "@needs/ui/lib/utils"
 import { Input } from "@needs/ui/components/input"
 
 import { UserProfileFieldProps } from "./UserProfileFields"
@@ -23,26 +24,29 @@ export const TextComponent = (props: UserProfileFieldProps) => {
     : "text"
 
   return (
-    <UserProfileGroup {...props}>
+    <UserProfileGroup {...props} floating>
       <Input
         id={attribute.name}
         data-testid={attribute.name}
         type={type}
+        variant="secondary"
+        size="xl"
         placeholder={
           attribute.readOnly
-            ? ""
+            ? " "
             : label(
                 props.t,
                 attribute.annotations?.["inputTypePlaceholder"] as string,
-                "",
+                " ",
                 attribute.annotations?.[
                   "inputOptionLabelsI18nPrefix"
                 ] as string
-              )
+              ) || " "
         }
         disabled={attribute.readOnly}
         required={isRequired}
         defaultValue={attribute.defaultValue}
+        className={cn("peer pt-5 pb-1 placeholder:text-transparent")}
         {...form.register(fieldName(attribute.name))}
       />
     </UserProfileGroup>

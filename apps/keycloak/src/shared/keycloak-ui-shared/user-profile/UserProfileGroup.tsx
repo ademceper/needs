@@ -32,6 +32,7 @@ export type UserProfileGroupProps = {
   form: UseFormReturn<UserFormFields>
   attribute: UserProfileAttributeMetadata
   renderer?: (attribute: UserProfileAttributeMetadata) => ReactNode
+  floating?: boolean
 }
 
 export const UserProfileGroup = ({
@@ -39,6 +40,7 @@ export const UserProfileGroup = ({
   form,
   attribute,
   renderer,
+  floating = false,
   children,
 }: PropsWithChildren<UserProfileGroupProps>) => {
   const helpText = label(
@@ -53,6 +55,45 @@ export const UserProfileGroup = ({
   const error = get(errors, fieldName(attribute.name)) as FieldError
   const fieldLabel = labelAttribute(t, attribute) || ""
   const isRequired = isRequiredAttribute(attribute)
+
+  if (floating) {
+    const content = (
+      <div className="relative">
+        {children}
+        {fieldLabel && (
+          <Label
+            htmlFor={attribute.name}
+            className="pointer-events-none absolute top-1 left-4 z-10 text-xs text-muted-foreground transition-[top,font-size,color] duration-150 ease-out peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-foreground"
+          >
+            {fieldLabel}
+            {isRequired && <span className="ml-0.5 text-destructive">*</span>}
+          </Label>
+        )}
+      </div>
+    )
+
+    return (
+      <div key={attribute.name} className="space-y-1.5">
+        {component ? (
+          <div className="flex items-stretch gap-2">
+            <div className="flex-1">{content}</div>
+            <div>{component}</div>
+          </div>
+        ) : (
+          content
+        )}
+        {helpText && (
+          <p className="text-xs text-muted-foreground">{helpText}</p>
+        )}
+        {error && (
+          <FormErrorText
+            data-testid={`${attribute.name}-helper`}
+            message={error.message as string}
+          />
+        )}
+      </div>
+    )
+  }
 
   return (
     <div key={attribute.name} className="space-y-1.5">
