@@ -60,14 +60,12 @@ function mapRoutes(
 const Shell = () => (
   <div className="flex min-h-screen flex-col">
     <Header />
-    <div className="flex flex-1">
+    <div className="mx-auto flex w-full max-w-5xl flex-1 gap-6 px-4 sm:px-6 lg:px-8">
       <PageNav />
-      <main className="flex-1 overflow-auto">
-        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-          <Suspense fallback={<Spinner />}>
-            <Outlet />
-          </Suspense>
-        </div>
+      <main className="min-w-0 flex-1 overflow-auto">
+        <Suspense fallback={<Spinner />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   </div>
