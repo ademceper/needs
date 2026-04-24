@@ -63,9 +63,11 @@ const Shell = () => (
     <div className="flex flex-1">
       <PageNav />
       <main className="flex-1 overflow-auto">
-        <Suspense fallback={<Spinner />}>
-          <Outlet />
-        </Suspense>
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+          <Suspense fallback={<Spinner />}>
+            <Outlet />
+          </Suspense>
+        </div>
       </main>
     </div>
   </div>

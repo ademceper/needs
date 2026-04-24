@@ -59,39 +59,38 @@ export const Header = () => {
   const realmName = environment.realm
 
   return (
-    <header
-      data-testid="page-header"
-      className="flex items-center gap-4 border-b bg-background px-4 py-2 md:px-6"
-    >
-      <a
-        href={indexHref}
-        className="inline-flex items-center text-2xl tracking-tight md:text-3xl"
-        style={{ fontFamily: '"Climate Crisis", sans-serif' }}
-        aria-label={realmName}
-      >
-        {realmName}
-      </a>
+    <header data-testid="page-header" className="border-b bg-background">
+      <div className="mx-auto flex w-full max-w-5xl items-center gap-4 px-4 py-2 sm:px-6 lg:px-8">
+        <a
+          href={indexHref}
+          className="inline-flex items-center text-2xl tracking-tight md:text-3xl"
+          style={{ fontFamily: '"Climate Crisis", sans-serif' }}
+          aria-label={realmName}
+        >
+          {realmName}
+        </a>
 
-      <div className="ml-auto flex items-center gap-3">
-        <ReferrerLink />
+        <div className="ml-auto flex items-center gap-3">
+          <ReferrerLink />
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              data-testid="options-toggle"
-              className="gap-1"
-            >
-              <span>{userDisplayName(keycloak, t("unknownUser"))}</span>
-              <CaretDown size={14} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => keycloak.logout()}>
-              {t("signOut")}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                data-testid="options-toggle"
+                className="gap-1"
+              >
+                <span>{userDisplayName(keycloak, t("unknownUser"))}</span>
+                <CaretDown size={14} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => keycloak.logout()}>
+                {t("signOut")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </header>
   )
