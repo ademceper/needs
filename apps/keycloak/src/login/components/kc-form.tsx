@@ -55,7 +55,10 @@ export function KcField(props: KcFieldProps) {
   )
 }
 
-type KcTextInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
+type KcTextInputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "size" | "children"
+> & {
   invalid?: boolean
   size?: "default" | "xl"
   variant?: "default" | "secondary"
@@ -93,7 +96,7 @@ export const KcTextInput = forwardRef<HTMLInputElement, KcTextInputProps>(
 
 type KcPasswordInputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
-  "size"
+  "size" | "children"
 > & {
   invalid?: boolean
   size?: "default" | "xl"
