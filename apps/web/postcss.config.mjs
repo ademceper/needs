@@ -1,1 +1,1 @@
-export { default } from "@pangea/ui/postcss.config";
+export { default } from "@needs/ui/postcss.config";

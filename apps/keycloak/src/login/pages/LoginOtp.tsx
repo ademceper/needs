@@ -2,8 +2,8 @@ import { useState } from "react"
 import { kcSanitize } from "keycloakify/lib/kcSanitize"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-import { Label } from "@pangea/ui/components/label"
-import { RadioGroup, RadioGroupItem } from "@pangea/ui/components/radio-group"
+import { Label } from "@needs/ui/components/label"
+import { RadioGroup, RadioGroupItem } from "@needs/ui/components/radio-group"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"

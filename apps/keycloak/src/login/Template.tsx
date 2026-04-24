@@ -11,9 +11,9 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { Alert, AlertDescription } from "@pangea/ui/components/alert"
-import { Button } from "@pangea/ui/components/button"
+import { cn } from "@needs/ui/lib/utils"
+import { Alert, AlertDescription } from "@needs/ui/components/alert"
+import { Button } from "@needs/ui/components/button"
 
 import type { I18n } from "./i18n"
 import type { KcContext } from "./KcContext"

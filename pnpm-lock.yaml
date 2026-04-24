@@ -11,7 +11,7 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.12
         version: 2.4.12
-      '@pangea/ts-cfg':
+      '@needs/ts-cfg':
         specifier: workspace:*
         version: link:packages/ts-cfg
       turbo:
@@ -26,7 +26,7 @@ importers:
       '@icons-pack/react-simple-icons':
         specifier: ^13.13.0
         version: 13.13.0(react@18.3.1)
-      '@pangea/ui':
+      '@needs/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@phosphor-icons/react':
@@ -42,7 +42,7 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
     devDependencies:
-      '@pangea/ts-cfg':
+      '@needs/ts-cfg':
         specifier: workspace:*
         version: link:../../packages/ts-cfg
       '@storybook/react':
@@ -81,7 +81,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@pangea/ui':
+      '@needs/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@phosphor-icons/react':
@@ -100,7 +100,7 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
     devDependencies:
-      '@pangea/ts-cfg':
+      '@needs/ts-cfg':
         specifier: workspace:*
         version: link:../../packages/ts-cfg
       '@tailwindcss/postcss':
@@ -187,7 +187,7 @@ importers:
         specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
-      '@pangea/ts-cfg':
+      '@needs/ts-cfg':
         specifier: workspace:*
         version: link:../ts-cfg
       '@tailwindcss/postcss':

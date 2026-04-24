@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
-import "@pangea/ui/globals.css"
+import "@needs/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@pangea/ui/lib/utils";
+import { cn } from "@needs/ui/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'})
 

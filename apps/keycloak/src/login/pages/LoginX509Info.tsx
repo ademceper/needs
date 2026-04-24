@@ -1,7 +1,7 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-import { Button } from "@pangea/ui/components/button"
-import { Label } from "@pangea/ui/components/label"
+import { Button } from "@needs/ui/components/button"
+import { Label } from "@needs/ui/components/label"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"

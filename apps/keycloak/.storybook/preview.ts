@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/react"
 
-import "@pangea/ui/globals.css"
+import "@needs/ui/globals.css"
 import "../src/styles/fonts.css"
 
 const preview: Preview = {

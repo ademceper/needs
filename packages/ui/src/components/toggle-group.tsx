@@ -4,8 +4,8 @@ import * as React from "react"
 import { type VariantProps } from "class-variance-authority"
 import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { toggleVariants } from "@pangea/ui/components/toggle"
+import { cn } from "@needs/ui/lib/utils"
+import { toggleVariants } from "@needs/ui/components/toggle"
 
 const ToggleGroupContext = React.createContext<
   VariantProps<typeof toggleVariants> & {

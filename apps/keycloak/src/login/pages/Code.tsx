@@ -3,7 +3,7 @@ import { kcSanitize } from "keycloakify/lib/kcSanitize"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 import { Check, Copy } from "@phosphor-icons/react"
 
-import { Input } from "@pangea/ui/components/input"
+import { Input } from "@needs/ui/components/input"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"

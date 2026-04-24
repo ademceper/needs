@@ -1,8 +1,8 @@
 import * as React from "react"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { Button } from "@pangea/ui/components/button"
-import { CaretLeftIcon, CaretRightIcon, DotsThreeIcon } from "@phosphor-icons/react"
+import { cn } from "@needs/ui/lib/utils"
+import { Button } from "@needs/ui/components/button"
+import { CaretLeft as CaretLeftIcon, CaretRight as CaretRightIcon, DotsThree as DotsThreeIcon } from "@phosphor-icons/react"
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (

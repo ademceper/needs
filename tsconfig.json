@@ -1,4 +1,4 @@
 {
-  "extends": "@pangea/ts-cfg/base.json"
+  "extends": "@needs/ts-cfg/base.json"
 }
 

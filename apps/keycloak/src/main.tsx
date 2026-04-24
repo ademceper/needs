@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import "@pangea/ui/globals.css";
+import "@needs/ui/globals.css";
 import "./styles/fonts.css";
 import { KcPage } from "./kc.gen";
 

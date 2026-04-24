@@ -4,25 +4,25 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
 
-import { useIsMobile } from "@pangea/ui/hooks/use-mobile"
-import { cn } from "@pangea/ui/lib/utils"
-import { Button } from "@pangea/ui/components/button"
-import { Input } from "@pangea/ui/components/input"
-import { Separator } from "@pangea/ui/components/separator"
+import { useIsMobile } from "@needs/ui/hooks/use-mobile"
+import { cn } from "@needs/ui/lib/utils"
+import { Button } from "@needs/ui/components/button"
+import { Input } from "@needs/ui/components/input"
+import { Separator } from "@needs/ui/components/separator"
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@pangea/ui/components/sheet"
-import { Skeleton } from "@pangea/ui/components/skeleton"
+} from "@needs/ui/components/sheet"
+import { Skeleton } from "@needs/ui/components/skeleton"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@pangea/ui/components/tooltip"
-import { SidebarIcon } from "@phosphor-icons/react"
+} from "@needs/ui/components/tooltip"
+import { Sidebar as SidebarIcon } from "@phosphor-icons/react"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

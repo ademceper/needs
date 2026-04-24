@@ -3,15 +3,15 @@
 import * as React from "react"
 import { Combobox as ComboboxPrimitive } from "@base-ui/react"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { Button } from "@pangea/ui/components/button"
+import { cn } from "@needs/ui/lib/utils"
+import { Button } from "@needs/ui/components/button"
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "@pangea/ui/components/input-group"
-import { CaretDownIcon, XIcon, CheckIcon } from "@phosphor-icons/react"
+} from "@needs/ui/components/input-group"
+import { CaretDown as CaretDownIcon, XIcon, Check as CheckIcon } from "@phosphor-icons/react"
 
 const Combobox = ComboboxPrimitive.Root
 

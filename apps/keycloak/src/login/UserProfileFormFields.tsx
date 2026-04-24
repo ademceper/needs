@@ -12,10 +12,10 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { Attribute } from "keycloakify/login/KcContext"
 import { CaretDown, Eye, EyeSlash } from "@phosphor-icons/react"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { Button } from "@pangea/ui/components/button"
-import { Label } from "@pangea/ui/components/label"
-import { Textarea } from "@pangea/ui/components/textarea"
+import { cn } from "@needs/ui/lib/utils"
+import { Button } from "@needs/ui/components/button"
+import { Label } from "@needs/ui/components/label"
+import { Textarea } from "@needs/ui/components/textarea"
 
 import type { KcContext } from "./KcContext"
 import type { I18n } from "./i18n"

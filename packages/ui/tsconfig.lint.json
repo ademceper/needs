@@ -1,5 +1,5 @@
 {
-  "extends": "@pangea/ts-cfg/react-library.json",
+  "extends": "@needs/ts-cfg/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },

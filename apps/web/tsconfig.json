@@ -1,9 +1,9 @@
 {
-  "extends": "@pangea/ts-cfg/nextjs.json",
+  "extends": "@needs/ts-cfg/nextjs.json",
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
-      "@pangea/ui/*": ["../../packages/ui/src/*"]
+      "@needs/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
       {

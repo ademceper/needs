@@ -1,6 +1,6 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react"
 
-import { cn } from "@pangea/ui/lib/utils"
+import { cn } from "@needs/ui/lib/utils"
 
 type AnimatedLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode

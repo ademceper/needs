@@ -1,7 +1,7 @@
 import { type MouseEvent, useRef, useState } from "react"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-import { cn } from "@pangea/ui/lib/utils"
+import { cn } from "@needs/ui/lib/utils"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"

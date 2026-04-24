@@ -1,5 +1,5 @@
 {
-  "name": "pangea",
+  "name": "needs",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.12",
-    "@pangea/ts-cfg": "workspace:*",
+    "@needs/ts-cfg": "workspace:*",
     "turbo": "^2.8.17",
     "typescript": "5.9.3"
   },

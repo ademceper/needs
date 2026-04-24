@@ -1,7 +1,7 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-import { Button } from "@pangea/ui/components/button"
-import { Checkbox } from "@pangea/ui/components/checkbox"
+import { Button } from "@needs/ui/components/button"
+import { Checkbox } from "@needs/ui/components/checkbox"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"

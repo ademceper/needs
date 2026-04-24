@@ -3,8 +3,8 @@
 import * as React from "react"
 import { Accordion as AccordionPrimitive } from "radix-ui"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { CaretDownIcon, CaretUpIcon } from "@phosphor-icons/react"
+import { cn } from "@needs/ui/lib/utils"
+import { CaretDown as CaretDownIcon, CaretUp as CaretUpIcon } from "@phosphor-icons/react"
 
 function Accordion({
   className,

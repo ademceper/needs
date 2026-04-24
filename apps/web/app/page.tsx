@@ -1,4 +1,4 @@
-import { Button } from "@pangea/ui/components/button"
+import { Button } from "@needs/ui/components/button"
 
 export default function Page() {
   return (

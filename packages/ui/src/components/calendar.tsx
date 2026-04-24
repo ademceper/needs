@@ -8,9 +8,9 @@ import {
   type Locale,
 } from "react-day-picker"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { Button, buttonVariants } from "@pangea/ui/components/button"
-import { CaretLeftIcon, CaretRightIcon, CaretDownIcon } from "@phosphor-icons/react"
+import { cn } from "@needs/ui/lib/utils"
+import { Button, buttonVariants } from "@needs/ui/components/button"
+import { CaretLeft as CaretLeftIcon, CaretRight as CaretRightIcon, CaretDown as CaretDownIcon } from "@phosphor-icons/react"
 
 function Calendar({
   className,

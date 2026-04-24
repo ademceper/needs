@@ -3,19 +3,19 @@
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 
-import { cn } from "@pangea/ui/lib/utils"
+import { cn } from "@needs/ui/lib/utils"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@pangea/ui/components/dialog"
+} from "@needs/ui/components/dialog"
 import {
   InputGroup,
   InputGroupAddon,
-} from "@pangea/ui/components/input-group"
-import { MagnifyingGlassIcon, CheckIcon } from "@phosphor-icons/react"
+} from "@needs/ui/components/input-group"
+import { MagnifyingGlass as MagnifyingGlassIcon, Check as CheckIcon } from "@phosphor-icons/react"
 
 function Command({
   className,

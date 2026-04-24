@@ -5,9 +5,9 @@ import { getKcClsx } from "keycloakify/login/lib/kcClsx"
 import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFormFieldsProps"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-import { Button } from "@pangea/ui/components/button"
-import { Checkbox } from "@pangea/ui/components/checkbox"
-import { Label } from "@pangea/ui/components/label"
+import { Button } from "@needs/ui/components/button"
+import { Checkbox } from "@needs/ui/components/checkbox"
+import { Label } from "@needs/ui/components/label"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"

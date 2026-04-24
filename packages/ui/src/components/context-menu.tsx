@@ -3,8 +3,8 @@
 import * as React from "react"
 import { ContextMenu as ContextMenuPrimitive } from "radix-ui"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { CaretRightIcon, CheckIcon } from "@phosphor-icons/react"
+import { cn } from "@needs/ui/lib/utils"
+import { CaretRight as CaretRightIcon, Check as CheckIcon } from "@phosphor-icons/react"
 
 function ContextMenu({
   ...props

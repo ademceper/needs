@@ -14,8 +14,8 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@pangea/ui/lib/utils",
-    "ui": "@pangea/ui/components"
+    "utils": "@needs/ui/lib/utils",
+    "ui": "@needs/ui/components"
   },
   "rtl": true,
   "menuColor": "default",

@@ -3,7 +3,7 @@ import { kcSanitize } from "keycloakify/lib/kcSanitize"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 import { useScript } from "keycloakify/login/pages/LoginPasskeysConditionalAuthenticate.useScript"
 
-import { Button } from "@pangea/ui/components/button"
+import { Button } from "@needs/ui/components/button"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"

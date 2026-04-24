@@ -9,10 +9,10 @@ import { forwardRef } from "react"
 import { kcSanitize } from "keycloakify/lib/kcSanitize"
 import { useIsPasswordRevealed } from "keycloakify/tools/useIsPasswordRevealed"
 
-import { cn } from "@pangea/ui/lib/utils"
-import { Button } from "@pangea/ui/components/button"
-import { Input } from "@pangea/ui/components/input"
-import { Label } from "@pangea/ui/components/label"
+import { cn } from "@needs/ui/lib/utils"
+import { Button } from "@needs/ui/components/button"
+import { Input } from "@needs/ui/components/input"
+import { Label } from "@needs/ui/components/label"
 
 export function KcFieldError(props: { message?: string; id?: string }) {
   const { message, id } = props
